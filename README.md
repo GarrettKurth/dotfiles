@@ -8,3 +8,4 @@
   * Neovim
   * Fish
   * Starship
+  * Fastfetch
