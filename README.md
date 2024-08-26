@@ -1,4 +1,4 @@
-# .dotfiles for EndeavorOS on KDE Plasma 6
+# .dotfiles for EndeavorOS/Arch on KDE Plasma 6
 
 > Using GNU Stow
 
