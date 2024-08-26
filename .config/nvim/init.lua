@@ -101,7 +101,7 @@ vim.g.have_nerd_font = true
 vim.opt.number = true
 -- You can also add relative line numbers, to help with jumping.
 --  Experiment for yourself to see if you like it!
--- vim.opt.relativenumber = true
+vim.opt.relativenumber = true
 
 -- Enable mouse mode, can be useful for resizing splits for example!
 vim.opt.mouse = 'a'
@@ -235,11 +235,28 @@ require('lazy').setup({
   --
   --  This is equivalent to:
   --    require('Comment').setup({})
-
+  -- { 'm4xshen/autoclose.nvim' },
+  {
+    'windwp/nvim-autopairs',
+    event = 'InsertEnter',
+    config = true,
+    -- use opts = {} for passing setup options
+    -- this is equalent to setup({}) function
+  },
+  {
+    'nvim-tree/nvim-tree.lua',
+    lazy = true,
+    dependencies = {
+      'nvim-tree/nvim-web-devicons',
+    },
+  },
   -- "gc" to comment visual regions/lines
   { 'numToStr/Comment.nvim', opts = {} },
-  { "catppuccin/nvim",       name = "catppuccin", priority = 1000 },
+  { 'catppuccin/nvim', name = 'catppuccin', priority = 1000 },
+  { 'akinsho/toggleterm.nvim', version = '*', config = true },
+
   -- Here is a more advanced example where we pass configuration
+
   -- options to `gitsigns.nvim`. This is equivalent to the following Lua:
   --    require('gitsigns').setup({ ... })
   --
@@ -272,7 +289,7 @@ require('lazy').setup({
   -- after the plugin has been loaded:
   --  config = function() ... end
 
-  {                     -- Useful plugin to show you pending keybinds.
+  { -- Useful plugin to show you pending keybinds.
     'folke/which-key.nvim',
     event = 'VimEnter', -- Sets the loading event to 'VimEnter'
     config = function() -- This is the function that runs, AFTER loading
@@ -287,6 +304,7 @@ require('lazy').setup({
         ['<leader>w'] = { name = '[W]orkspace', _ = 'which_key_ignore' },
         ['<leader>t'] = { name = '[T]oggle', _ = 'which_key_ignore' },
         ['<leader>h'] = { name = 'Git [H]unk', _ = 'which_key_ignore' },
+        ['<leader>e'] = { '<cmd>NvimTreeOpen<cr>', 'Explorer' },
       }
       -- visual mode
       require('which-key').register({
@@ -324,7 +342,7 @@ require('lazy').setup({
       { 'nvim-telescope/telescope-ui-select.nvim' },
 
       -- Useful for getting pretty icons, but requires a Nerd Font.
-      { 'nvim-tree/nvim-web-devicons',            enabled = vim.g.have_nerd_font },
+      { 'nvim-tree/nvim-web-devicons', enabled = vim.g.have_nerd_font },
     },
     config = function()
       -- Telescope is a fuzzy finder that comes with a lot of different things that
@@ -417,11 +435,11 @@ require('lazy').setup({
 
       -- Useful status updates for LSP.
       -- NOTE: `opts = {}` is the same as calling `require('fidget').setup({})`
-      { 'j-hui/fidget.nvim',       opts = {} },
+      { 'j-hui/fidget.nvim', opts = {} },
 
       -- `neodev` configures Lua LSP for your Neovim config, runtime and plugins
       -- used for completion, annotations and signatures of Neovim apis
-      { 'folke/neodev.nvim',       opts = {} },
+      { 'folke/neodev.nvim', opts = {} },
     },
     config = function()
       -- Brief aside: **What is LSP?**
@@ -728,7 +746,7 @@ require('lazy').setup({
           -- Accept ([y]es) the completion.
           --  This will auto-import if your LSP supports it.
           --  This will expand snippets if the LSP sent a snippet.
-          ['<C-y>'] = cmp.mapping.confirm { select = true },
+          ['<Tab>'] = cmp.mapping.confirm { select = true },
 
           -- If you prefer more traditional completion keymaps,
           -- you can uncomment the following lines
@@ -803,7 +821,6 @@ require('lazy').setup({
       --  - yinq - [Y]ank [I]nside [N]ext [']quote
       --  - ci'  - [C]hange [I]nside [']quote
       require('mini.ai').setup { n_lines = 500 }
-
       -- Add/delete/replace surroundings (brackets, quotes, etc.)
       --
       -- - saiw) - [S]urround [A]dd [I]nner [W]ord [)]Paren
@@ -906,6 +923,73 @@ require('lazy').setup({
     },
   },
 })
-vim.cmd.colorscheme "catppuccin-macchiato"
+vim.cmd.colorscheme 'catppuccin-macchiato'
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
+local status_ok, nvim_tree = pcall(require, 'nvim-tree')
+if not status_ok then
+  return
+end
+
+local config_status_ok, nvim_tree_config = pcall(require, 'nvim-tree.config')
+if not config_status_ok then
+  return
+end
+
+local tree_cb = nvim_tree_config.nvim_tree_callback
+nvim_tree.setup {
+  update_focused_file = {
+    enable = true,
+    update_cwd = true,
+  },
+  renderer = {
+    root_folder_modifier = ':t',
+    -- These icons are visible when you install web-devicons
+    icons = {
+      glyphs = {
+        default = '',
+        symlink = '',
+        folder = {
+          arrow_open = '',
+          arrow_closed = '',
+          default = '',
+          open = '',
+          empty = '',
+          empty_open = '',
+          symlink = '',
+          symlink_open = '',
+        },
+        git = {
+          unstaged = '',
+          staged = 'S',
+          unmerged = '',
+          renamed = '➜',
+          untracked = 'U',
+          deleted = '',
+          ignored = '◌',
+        },
+      },
+    },
+  },
+  diagnostics = {
+    enable = true,
+    show_on_dirs = true,
+    icons = {
+      hint = '',
+      info = '',
+      warning = '',
+      error = '',
+    },
+  },
+  view = {
+    width = 30,
+    side = 'left',
+    mappings = {
+      list = {
+        { key = { 'l', '<CR>', 'o' }, cb = tree_cb 'edit' },
+        { key = 'h', cb = tree_cb 'close_node' },
+        { key = 'v', cb = tree_cb 'vsplit' },
+      },
+    },
+  },
+}
