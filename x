@@ -1,0 +1,2 @@
+ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOygNuNQhz9jw6be9VYWKN/K8quLllJzTtZBFtN2BcJk garrettkurth@gmail.com
+ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOygNuNQhz9jw6be9VYWKN/K8quLllJzTtZBFtN2BcJk garrettkurth@gmail.com
