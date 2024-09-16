@@ -6,6 +6,7 @@ fastfetch
 alias v="nvim"
 alias x="xsel -ib"
 enable_transience
+fish_ssh_agent
 if status is-interactive
 and not set -q TMUX
     exec tmux
