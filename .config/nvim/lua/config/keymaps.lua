@@ -5,6 +5,7 @@ local cmp = require("cmp")
 
 cmp.setup({
   mapping = {
+    ["<Tab>"] = cmp.mapping.complete(),
     -- Add this line to confirm selection with Tab as well
     ["<Tab>"] = cmp.mapping.confirm({ select = true }),
   },
