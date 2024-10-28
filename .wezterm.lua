@@ -10,7 +10,7 @@ local config = wezterm.config_builder()
 
 config.enable_tab_bar = false
 config.window_background_opacity = 0.8
-config.color_scheme = "catppuccin-macchiato"
+config.color_scheme = "catppuccin-mocha"
 
 config.font = wezterm.font({
 	family = "FiraCode Nerd Font",
