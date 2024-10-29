@@ -4,7 +4,7 @@ if status is-interactive
     clear
     fastfetch
     alias v="nvim"
-    alias x="xsel -ib"
+    alias x="wl-copy"
     enable_transience
     fish_ssh_agent
     if status is-interactive
