@@ -25,6 +25,15 @@
             "key": "Time",
             "format": "{14}:{17}:{20}"
         },
+        
+        "break",
+        "os",
+        "kernel",
+        "de",
+        "wm",
+        "shell",
+        "terminal",
+        "terminalfont",
         "break",
         "player",
         "media"
