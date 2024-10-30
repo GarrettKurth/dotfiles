@@ -3,7 +3,6 @@
 {
     "$schema": "https://github.com/fastfetch-cli/fastfetch/raw/dev/doc/json_schema.json",
     "logo": {
-        "source": "arch_small",
         "padding": {
             "right": 1
         }
@@ -12,30 +11,56 @@
         "size": {
             "binaryPrefix": "si"},
         "color": "blue",
-        "separator": "  "
+                "constants": [
+            "─────────────────" // {$1}, used in Custom module
+        ],
+        "separator": "  ",
+                "key": {
+            "type": "icon",
+            "paddingLeft": 2
+        }
     },
     "modules": [
-        {
-            "type": "datetime",
-            "key": "Date",
-            "format": "{1}-{3}-{11}"
+        { 
+        "type": "custom", // HardwareStart
+        // {#1} is equivalent to `\u001b[1m`. {#} is equivalent to `\u001b[m`
+        "format": "┌{$1} {#1}Hardware Information{#} {$1}┐"
+    },
+        "host",
+        "cpu",
+        "gpu",
+        "disk",
+        "memory",
+                {
+            "type": "custom", // SoftwareStart
+            "format": "├{$1} {#1}Software Information{#} {$1}┤"
         },
-        {
-            "type": "datetime",
-            "key": "Time",
-            "format": "{14}:{17}:{20}"
+                {
+            "type": "title",
+            "keyIcon": "",
+            "key": "Title", // Title module has no key by default, so that icon is not displayed
+            "format": "{user-name}@{host-name}"
         },
-        
-        "break",
         "os",
         "kernel",
+        "uptime",
+        "packages",
         "de",
+        "lm",
         "wm",
         "shell",
         "terminal",
         "terminalfont",
-        "break",
         "player",
-        "media"
+        "media",
+        {
+            "type": "custom", // InformationEnd
+            "format": "└{$1}──────────────────────{$1}┘"
+        },
+        {
+            "type": "colors",
+            "paddingLeft": 2,
+            "symbol": "circle"
+        }
     ]
 }
