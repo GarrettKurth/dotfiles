@@ -7,8 +7,8 @@ if status is-interactive
     alias x="wl-copy"
     enable_transience
     fish_ssh_agent
-    if status is-interactive
-        and not set -q TMUX
-        exec tmux
+    status is-interactive; and begin
+        set fish_tmux_autostart true
     end
+    set -gx MANPAGER "nvim +Man!"
 end
